@@ -1,0 +1,67 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# 빌드된 바이너리 파일 제외
+android/app/debug/
+android/app/release/
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/.symlinks/
+ios/Runner.xcworkspace/xcuserdata/
+
+# 개인 설정 파일 제외
+*.iml
+.idea/
+
+#Xcode의 빌드 캐시(DerivedData)를 삭제. 이 폴더에는 프로젝트를 빌드할 때 생성되는 임시 파일, 컴파일된 코드, 인덱싱 데이터 등이 저장됩니다.
+
+# rm -rf ~/Library/Developer/Xcode/DerivedData
+#  cd ios
+#  rm -rf Pods Podfile.lock
+#  pod install --repo-update
+#  cd ..
+#  flutter clean
+#  flutter pub get
+#  flutter run
+#  flutter signing report

@@ -1,0 +1,151 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    // END: FlutterFire Configuration
+    id "kotlin-android"
+    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader("UTF-8") { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
+if (flutterVersionCode == null) {
+    flutterVersionCode = "1"
+}
+
+def flutterVersionName = localProperties.getProperty("flutter.versionName")
+if (flutterVersionName == null) {
+    flutterVersionName = "1.0"
+}
+
+android {
+    namespace = "com.buelmanager.date_sketch_with_ai.date_sketch_with_ai"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId = "com.buelmanager.date_sketch_with_ai.date_sketch_with_ai"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'buelmanager'
+            keyPassword 'qweqwe11'
+            storeFile file('../../../../../keystore/buelmanager')
+            storePassword 'qweqwe11'
+        }
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig = signingConfigs.debug
+        }
+    }
+
+    def archiveBuildType = ["release"]
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+
+            def originPath = variant.getPackageApplicationProvider().get().outputDirectory.toString()
+
+            if (variant.buildType.name in archiveBuildType) {
+                def prefixFirstName = "DATE_SKETCH"
+                def fileName = new SimpleDateFormat("yyyyMMdd_HHmm")
+                fileName.setTimeZone(TimeZone.getDefault())
+
+                def dirName = new SimpleDateFormat("yyyyMMdd")
+                dirName.setTimeZone(TimeZone.getDefault())
+
+                if (variant.versionName != null) {
+                    String name = "${prefixFirstName}${defaultConfig.versionCode}_${variant.versionName}R_${fileName.format(new Date())}.APK"
+                    outputFileName = new File(name)
+                }
+                def taskSuffix = variant.name.capitalize()
+                def assembleTaskName = "assemble${taskSuffix}"
+
+                def copyDir = new File("../release/", dirName.format(new Date()))
+                def copyTaskName = "archive${taskSuffix}Copy"
+
+                if (tasks.findByName(assembleTaskName)) {
+                    def copyAPKTask = tasks.create(copyTaskName, Copy) {
+                        description "Archive/copy APK and mappings.txt to a versioned folder."
+                        println description
+
+                        from buildDir
+                        into copyDir
+                        include "**/${output.outputFileName}"
+                        eachFile { file -> file.path = file.name }
+                        includeEmptyDirs = false
+                    }
+
+                    def origin = new File(originPath, output.outputFileName)
+                    origin.delete()
+
+                    tasks[assembleTaskName].finalizedBy = [copyAPKTask]
+                }
+            }
+        }
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+/**
+ *
+ Certificate #1:
+ 소유자: C=buelmanager, ST=buelmanager, L=buelmanager, O=buelmanager, OU=buelmanager, CN=buelmanager
+ 발행자: C=buelmanager, ST=buelmanager, L=buelmanager, O=buelmanager, OU=buelmanager, CN=buelmanager
+ 일련 번호: 1
+ 적합한 시작 날짜: Tue Mar 04 15:39:15 KST 2025 종료 날짜: Sat Feb 26 15:39:15 KST 2050
+ 인증서 지문:
+ SHA1: 83:01:40:B3:AD:15:4C:B4:90:E2:3C:E3:1C:0C:6A:81:61:27:2F:6B
+ SHA256: 66:0A:1C:4A:C0:5B:AE:EB:09:C5:47:8E:CE:13:D5:B8:13:EB:ED:E1:CA:35:9D:5A:FA:A2:5A:B7:4C:23:77:4E
+ 서명 알고리즘 이름: SHA256withRSA
+ 주체 공용 키 알고리즘: 2048비트 RSA 키
+ 버전: 1
+
+ chulheewon@chulhees-MacBook-Pro ~ % keytool -list -v -keystore /Users/chulheewon/Documents/proj/keystore/buelmanager -alias buelmanager
+ 키 저장소 비밀번호 입력:
+ 별칭 이름: buelmanager
+ 생성 날짜: 2025. 3. 4.
+ 항목 유형: PrivateKeyEntry
+ 인증서 체인 길이: 1
+ 인증서[1]:
+ 소유자: C=buelmanager, ST=buelmanager, L=buelmanager, O=buelmanager, OU=buelmanager, CN=buelmanager
+ 발행자: C=buelmanager, ST=buelmanager, L=buelmanager, O=buelmanager, OU=buelmanager, CN=buelmanager
+ 일련 번호: 1
+ 적합한 시작 날짜: Tue Mar 04 15:39:15 KST 2025 종료 날짜: Sat Feb 26 15:39:15 KST 2050
+ 인증서 지문:
+ SHA1: 83:01:40:B3:AD:15:4C:B4:90:E2:3C:E3:1C:0C:6A:81:61:27:2F:6B
+ SHA256: 66:0A:1C:4A:C0:5B:AE:EB:09:C5:47:8E:CE:13:D5:B8:13:EB:ED:E1:CA:35:9D:5A:FA:A2:5A:B7:4C:23:77:4E
+ 서명 알고리즘 이름: SHA256withRSA
+ 주체 공용 키 알고리즘: 2048비트 RSA 키
+ 버전: 1
+
+ */
