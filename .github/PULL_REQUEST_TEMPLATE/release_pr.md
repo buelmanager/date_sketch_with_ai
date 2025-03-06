@@ -1,11 +1,3 @@
----
-name: "🚀 Release PR"
-about: "배포를 위한 Release PR 템플릿"
-title: "[RELEASE] vX.X.X 배포"
-labels: ["release"]
-assignees: ""
----
-
 ## 🚀 Release vX.X.X 배포 준비
 다음 변경 사항을 포함하여 `main` 브랜치로 배포합니다.
 
