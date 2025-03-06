@@ -45,5 +45,23 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>GMSApiKey</key>
+        <string>AIzaSyC9MYv-HG3RJScpjcVhH7ZdsFbe1AfcEYo</string>
+        <key>CFBundleURLTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleTypeRole</key>
+                <string>Editor</string>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                    <string>com.googleusercontent.apps.934589307904-9gbs3k2gu9hqovj8n280k3mkspbtvctf</string>
+                </array>
+            </dict>
+        </array>
+        <key>NSAppTransportSecurity</key>
+        <dict>
+            <key>NSAllowsArbitraryLoads</key>
+            <true/>
+        </dict>
 </dict>
 </plist>

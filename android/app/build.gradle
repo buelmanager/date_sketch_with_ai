@@ -34,8 +34,12 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"  // ✅ Kotlin이 JVM 17을 타겟하도록 변경
     }
 
     defaultConfig {
@@ -115,7 +119,16 @@ android {
 flutter {
     source = "../.."
 }
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.2.3') // Firebase BOM (최신 버전 확인 가능)
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+}
 /**
  *
  Certificate #1:
