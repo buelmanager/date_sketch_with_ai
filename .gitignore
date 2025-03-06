@@ -5,9 +5,11 @@
 *.swp
 .DS_Store
 .atom/
+.build/
 .buildlog/
 .history
 .svn/
+.swiftpm/
 migrate_working_dir/
 
 # IntelliJ related
@@ -49,8 +51,46 @@ ios/Flutter/App.framework
 ios/Flutter/Flutter.framework
 ios/.symlinks/
 ios/Runner.xcworkspace/xcuserdata/
-*.xcworkspace/contents.xcworkspacedata
 
+# Xcode project files (Optional: Only if using shared schemes)
+*.xcscheme
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Xcode Derived Data
+DerivedData/
+
+# User-specific Xcode files
+xcuserdata/
+
+# Ignore Android CMake Debug build files
+android/app/cxx/Debug/
+
+# Ignore Xcode build cache files
+android/build/ios/XCBuildData/
+ios/Runner.xcodeproj/xcshareddata/xcschemes/
+
+# Ignore CocoaPods lock file
+ios/Podfile.lock
+
+# Ignore CMake build files
+CMakeCache.txt
+CMakeLists.txt
+CMakeFiles/
+cmakeFiles-*
+*.cmake
+*.ninja
+
+# Ignore Android Gradle build files
+android/app/build/
+android/.cxx/
+*.gradle
+.gradle/
+
+# Ignore user-specific Xcode settings
+xcshareddata/
 #Xcode의 빌드 캐시(DerivedData)를 삭제. 이 폴더에는 프로젝트를 빌드할 때 생성되는 임시 파일, 컴파일된 코드, 인덱싱 데이터 등이 저장됩니다.
 
 # rm -rf ~/Library/Developer/Xcode/DerivedData
@@ -62,5 +102,21 @@ ios/Runner.xcworkspace/xcuserdata/
 #  flutter pub get
 #  flutter run
 #  flutter signing report
+
+#git rm --cached -r ios/Runner.xcworkspace/contents.xcworkspacedata
+ #git rm --cached -r ios/Podfile.lock
+ #git rm --cached -r ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+ #git commit -m "chore: Ignore unnecessary Xcode and CocoaPods files"
+ #git push origin 브랜치명
+
+#git rm --cached -r android/app/cxx/Debug/
+ #git rm --cached -r android/build/ios/XCBuildData/
+ #git rm --cached -r ios/Runner.xcworkspace/xcuserdata/
+ #git rm --cached -r ios/Runner.xcodeproj/xcshareddata/xcschemes/
+ #git rm --cached -r ios/Podfile.lock
+ #git rm --cached -r android/app/build/
+ #git rm --cached -r android/.cxx/
+ #git rm --cached -r *.gradle
+
 
 #test 1

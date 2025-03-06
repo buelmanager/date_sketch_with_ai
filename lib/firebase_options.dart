@@ -5,6 +5,12 @@ import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
+/// Platform  Firebase App Id
+// web       1:934589307904:web:e4658e585f036ef0b94ce5
+// android   1:934589307904:android:921e585ca69fa188b94ce5
+// ios       1:934589307904:ios:92f3d13a94af4b87b94ce5
+// macos     1:934589307904:ios:ebfda74d34dcbbf8b94ce5
+// windows   1:934589307904:web:609239a73d5b4661b94ce5
 ///
 /// Example:
 /// ```dart
@@ -42,17 +48,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyA-1j_Q42O_DXjOwdcwXzz5rcyslxi6QbI',
-    appId: '1:934589307904:web:9eb88704ad267c90b94ce5',
+    appId: '1:934589307904:web:e4658e585f036ef0b94ce5',
     messagingSenderId: '934589307904',
     projectId: 'date-sketch',
     authDomain: 'date-sketch.firebaseapp.com',
     storageBucket: 'date-sketch.firebasestorage.app',
-    measurementId: 'G-PB1T66R48D',
+    measurementId: 'G-3DM3NEDZRP',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCsxuGH_oU_4JAnDpdD09fjxXbymPlSRAs',
-    appId: '1:934589307904:android:efa79fa2eb6e7eacb94ce5',
+    appId: '1:934589307904:android:921e585ca69fa188b94ce5',
     messagingSenderId: '934589307904',
     projectId: 'date-sketch',
     storageBucket: 'date-sketch.firebasestorage.app',
@@ -60,34 +66,32 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCna3eDXd_jj05oyed7EjNp-dhnhcKjN48',
-    appId: '1:934589307904:ios:33e6b55fce24e079b94ce5',
+    appId: '1:934589307904:ios:92f3d13a94af4b87b94ce5',
     messagingSenderId: '934589307904',
     projectId: 'date-sketch',
     storageBucket: 'date-sketch.firebasestorage.app',
-    androidClientId: '934589307904-4ul12nd78d37fsuv709grj8r29g3oncr.apps.googleusercontent.com',
-    iosClientId: '934589307904-9gbs3k2gu9hqovj8n280k3mkspbtvctf.apps.googleusercontent.com',
-    iosBundleId: 'com.buelmanager.datesketchwithai.dateSketchWithAi',
+    iosClientId: '934589307904-4oq4k7cg5l81ab0h69ncjrulos26t4le.apps.googleusercontent.com',
+    iosBundleId: 'com.buelmanager.DateSketch',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCna3eDXd_jj05oyed7EjNp-dhnhcKjN48',
-    appId: '1:934589307904:ios:33e6b55fce24e079b94ce5',
+    appId: '1:934589307904:ios:ebfda74d34dcbbf8b94ce5',
     messagingSenderId: '934589307904',
     projectId: 'date-sketch',
     storageBucket: 'date-sketch.firebasestorage.app',
-    androidClientId: '934589307904-4ul12nd78d37fsuv709grj8r29g3oncr.apps.googleusercontent.com',
-    iosClientId: '934589307904-9gbs3k2gu9hqovj8n280k3mkspbtvctf.apps.googleusercontent.com',
-    iosBundleId: 'com.buelmanager.datesketchwithai.dateSketchWithAi',
+    iosClientId: '934589307904-fg3emqms9uvj6k1bjd8lq5m86s06c2gf.apps.googleusercontent.com',
+    iosBundleId: 'com.example.myDManager',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyA-1j_Q42O_DXjOwdcwXzz5rcyslxi6QbI',
-    appId: '1:934589307904:web:9eb88704ad267c90b94ce5',
+    appId: '1:934589307904:web:609239a73d5b4661b94ce5',
     messagingSenderId: '934589307904',
     projectId: 'date-sketch',
     authDomain: 'date-sketch.firebaseapp.com',
     storageBucket: 'date-sketch.firebasestorage.app',
-    measurementId: 'G-PB1T66R48D',
+    measurementId: 'G-D9LFJ4198B',
   );
 
 }
