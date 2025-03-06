@@ -1,0 +1,30 @@
+name: 🚀 Deploy to Production
+
+on:
+  push:
+    tags:
+      - "v*.*.*" # v1.0.0 형식의 태그가 푸시될 때 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name:
+        //Set up Node.js (예제: Node.js 환경 설정)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Deploy to Production
+        run: |
+          echo "Deploying to Production..."
+          # 여기에 실제 배포 명령어 추가 (예: AWS, Firebase, Docker 등)
