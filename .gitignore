@@ -49,10 +49,7 @@ ios/Flutter/App.framework
 ios/Flutter/Flutter.framework
 ios/.symlinks/
 ios/Runner.xcworkspace/xcuserdata/
-
-# 개인 설정 파일 제외
-*.iml
-.idea/
+*.xcworkspace/contents.xcworkspacedata
 
 #Xcode의 빌드 캐시(DerivedData)를 삭제. 이 폴더에는 프로젝트를 빌드할 때 생성되는 임시 파일, 컴파일된 코드, 인덱싱 데이터 등이 저장됩니다.
 
