@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Release PR Template
+    url: PULL_REQUEST_TEMPLATE/release_pr.md
+    about: "Use this template for release PRs"
+  - name: Feature PR Template
+    url: PULL_REQUEST_TEMPLATE/feature_pr.md
+    about: "Use this template for new feature development"
+  - name: Bug Fix PR Template
+    url: PULL_REQUEST_TEMPLATE/bugfix_pr.md
+    about: "Use this template for fixing bugs"
+  - name: Hotfix PR Template
+    url: PULL_REQUEST_TEMPLATE/hotfix_pr.md
+    about: "Use this template for urgent hotfixes"
