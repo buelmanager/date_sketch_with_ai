@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../models/date_course.dart';
 import '../models/date_place.dart';
 import '../models/recommendation.dart';
@@ -17,44 +19,71 @@ class DateRepository {
 
     // 추천 데이트 코스
     final recommendedCourses = [
-      const DateCourse(
+       DateCourse(
         id: '1',
         title: '한강 피크닉 데이트',
         description: '한강에서 여유로운 피크닉과 자전거 라이딩을 즐기는 데이트 코스',
-        imageUrl: 'assets/images/hangang.jpg',
+        imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
         rating: 4.8,
         location: '서울 영등포구',
         category: '야외',
         duration: 180,
         tags: ['피크닉', '자전거', '한강'],
         places: [],
-        isFavorite: false,
+        isFavorite: false, reviewCount: 5, estimatedTime: 5, estimatedCost: 1,
       ),
-      const DateCourse(
+       DateCourse(
         id: '2',
         title: '북촌 한옥마을 산책',
         description: '전통과 현대가 공존하는 북촌 한옥마을에서 한복체험과 전통 카페 데이트',
-        imageUrl: 'assets/images/bukchon.jpg',
+        imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
         rating: 4.7,
         location: '서울 종로구',
         category: '문화',
         duration: 240,
         tags: ['한옥', '전통', '문화'],
         places: [],
-        isFavorite: true,
+        isFavorite: true, reviewCount: 1, estimatedTime: 5, estimatedCost: 3,
       ),
     ];
 
     // 인기 데이트 장소
     final popularPlaces = [
-      const DatePlace(
+       DatePlace(
         id: '1',
         name: '성수동 카페거리',
         category: '카페',
-        imageUrl: 'assets/images/cafe_street.jpg',
+        imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
         rating: 4.5,
         address: '서울 성동구 성수동',
-        tags: ['카페', '인스타', '데이트'],
+        tags: ['카페', '인스타', '데이트'], reviewCount: 1, description: '1111', latitude: 1, longitude: 1,
+      ),
+      DatePlace(
+        id: '1',
+        name: '성수동 카페거리',
+        category: '카페',
+        imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
+        rating: 4.5,
+        address: '서울 성동구 성수동',
+        tags: ['카페', '인스타', '데이트'], reviewCount: 1, description: '1111', latitude: 1, longitude: 1,
+      ),
+      DatePlace(
+        id: '1',
+        name: '성수동 카페거리',
+        category: '카페',
+        imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
+        rating: 4.5,
+        address: '서울 성동구 성수동',
+        tags: ['카페', '인스타', '데이트'], reviewCount: 1, description: '1111', latitude: 1, longitude: 1,
+      ),
+      DatePlace(
+        id: '1',
+        name: '성수동 카페거리',
+        category: '카페',
+        imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
+        rating: 4.5,
+        address: '서울 성동구 성수동',
+        tags: ['카페', '인스타', '데이트'], reviewCount: 1, description: '1111', latitude: 1, longitude: 1,
       ),
     ];
 

@@ -1,14 +1,20 @@
 // lib/providers/view_model_providers.dart 에 추가
+import 'dart:math';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/ai_course_request.dart';
 import '../repositories/user_profile_repository.dart';
 
 import '../models/date_place.dart';
 import '../models/user_profile.dart';
 import '../providers/repository_providers.dart';
-import '../repositories/user_profile_repository.dart';
+import '../utils/app_logger.dart';
 import '../view_models/explore_view_model.dart';
 import '../view_models/home_view_model.dart';
+import '../repositories/ai_course_repository.dart';
+import '../view_models/ai_course_view_model.dart';
+
 
 // 사용자 프로필 저장소 프로바이더
 final userProfileRepositoryProvider = Provider<UserProfileRepository>((ref) {
@@ -46,14 +52,14 @@ final exploreViewModelProvider = StateNotifierProvider<ExploreViewModel, Explore
   } else {
     // 기본 더미 데이터
     places = [
-      DatePlace(
+       DatePlace(
         id: '1',
         name: '망원 한강공원',
         category: '야외',
-        imageUrl: 'assets/images/park.jpg',
+        imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
         rating: 4.7,
         address: '서울 마포구 마포나루길 467',
-        tags: ['피크닉', '야경', '자전거'],
+        tags: ['피크닉', '야경', '자전거'], reviewCount: 1, description: '111', latitude: 1, longitude: 1,
       ),
       // 다른 더미 데이터...
     ];
@@ -141,3 +147,32 @@ class UserProfileViewModel extends StateNotifier<UserProfileState> {
     }
   }
 }
+
+
+// AI 코스 Repository Provider
+final aiCourseRepositoryProvider = Provider<AICourseRepository>((ref) {
+  return AICourseRepository();
+});
+
+// AI 코스 ViewModel Provider
+final aiCourseViewModelProvider = StateNotifierProvider<AICourseViewModel, AICourseState>((ref) {
+  final repository = ref.watch(aiCourseRepositoryProvider);
+  return AICourseViewModel(repository);
+});
+
+// 7. HomeScreen 수정 (PromotionBanner의 onCreateCourse 콜백 수정)
+// HomeScreen에서 PromotionBanner의 onCreateCourse 콜백을 수정해야 합니다.
+// lib/views/home/widgets/promotion_banner.dart의 클릭 이벤트를 수정하고,
+// HomeScreen에서 다음과 같이 콜백을 변경합니다:
+
+/*
+PromotionBanner(
+  onCreateCourse: () {
+    // AI 코스 생성 화면으로 이동
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AICourseCreatorScreen()),
+    );
+  },
+),
+*/
