@@ -19,7 +19,12 @@ class DateCourse with _$DateCourse {
     required int duration, // 분 단위 코스 소요 시간
     required List<String> tags,
     required List<DatePlace> places,
+    required int reviewCount,
+    required int estimatedTime,
+    required int estimatedCost,
+    String? createdBy,
     @Default(false) bool isFavorite,
+    @Default(false) bool isFeatured,
   }) = _DateCourse;
 
   factory DateCourse.fromJson(Map<String, dynamic> json) => _$DateCourseFromJson(json);

@@ -20,7 +20,12 @@ _$DateCourseImpl _$$DateCourseImplFromJson(Map<String, dynamic> json) =>
       places: (json['places'] as List<dynamic>)
           .map((e) => DatePlace.fromJson(e as Map<String, dynamic>))
           .toList(),
+      reviewCount: (json['reviewCount'] as num).toInt(),
+      estimatedTime: (json['estimatedTime'] as num).toInt(),
+      estimatedCost: (json['estimatedCost'] as num).toInt(),
+      createdBy: json['createdBy'] as String?,
       isFavorite: json['isFavorite'] as bool? ?? false,
+      isFeatured: json['isFeatured'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$DateCourseImplToJson(_$DateCourseImpl instance) =>
@@ -35,5 +40,10 @@ Map<String, dynamic> _$$DateCourseImplToJson(_$DateCourseImpl instance) =>
       'duration': instance.duration,
       'tags': instance.tags,
       'places': instance.places,
+      'reviewCount': instance.reviewCount,
+      'estimatedTime': instance.estimatedTime,
+      'estimatedCost': instance.estimatedCost,
+      'createdBy': instance.createdBy,
       'isFavorite': instance.isFavorite,
+      'isFeatured': instance.isFeatured,
     };

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -227,37 +229,37 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
           id: '1',
           name: '망원 한강공원',
           category: '야외',
-          imageUrl: 'assets/images/park.jpg',
+          imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
           rating: 4.7,
           address: '서울 마포구 마포나루길 467',
-          tags: ['피크닉', '야경', '자전거'],
+          tags: ['피크닉', '야경', '자전거'], reviewCount: 1, description: '', latitude: 1, longitude: 1
         ),
         DatePlace(
-          id: '2',
-          name: '블루보틀 삼청',
-          category: '카페',
-          imageUrl: 'assets/images/cafe.jpg',
-          rating: 4.5,
-          address: '서울 종로구 삼청로 100',
-          tags: ['커피', '디저트', '인스타'],
+            id: '2',
+            name: '블루보틀 삼청',
+            category: '카페',
+            imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
+            rating: 4.5,
+            address: '서울 종로구 삼청로 100',
+            tags: ['커피', '디저트', '인스타'],reviewCount: 1, description: '', latitude: 1, longitude: 1
         ),
         DatePlace(
-          id: '3',
-          name: '국립현대미술관',
-          category: '문화',
-          imageUrl: 'assets/images/museum.jpg',
-          rating: 4.8,
-          address: '서울 종로구 삼청로 30',
-          tags: ['전시', '데이트', '예술'],
+            id: '3',
+            name: '국립현대미술관',
+            category: '문화',
+            imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
+            rating: 4.8,
+            address: '서울 종로구 삼청로 30',
+            tags: ['전시', '데이트', '예술'],reviewCount: 1, description: '', latitude: 1, longitude: 1
         ),
         DatePlace(
-          id: '4',
-          name: '을지로 미쓰아',
-          category: '맛집',
-          imageUrl: 'assets/images/restaurant.jpg',
-          rating: 4.6,
-          address: '서울 중구 을지로 45',
-          tags: ['일식', '맛집', '분위기'],
+            id: '4',
+            name: '을지로 미쓰아',
+            category: '맛집',
+            imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
+            rating: 4.6,
+            address: '서울 중구 을지로 45',
+            tags: ['일식', '맛집', '분위기'],reviewCount: 1, description: '', latitude: 1, longitude: 1
         ),
       ];
     }
@@ -320,17 +322,45 @@ class _ExploreScreenState extends ConsumerState<ExploreScreen> with SingleTicker
             flex: 3,
             child: Stack(
               children: [
-                // 이미지
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
-                    image: DecorationImage(
-                      image: AssetImage(place.imageUrl),
-                      fit: BoxFit.cover,
-                    ),
+                // 이미지 - 네트워크 이미지로 변경
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  child: Image.network(
+                    place.imageUrl,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors.grey[300],
+                        child: const Center(
+                          child: Icon(
+                            Icons.image_not_supported,
+                            color: Colors.white,
+                            size: 32,
+                          ),
+                        ),
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        color: Colors.grey[200],
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                                : null,
+                            color: AppTheme.primaryColor,
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
 

@@ -30,7 +30,12 @@ mixin _$DateCourse {
   int get duration => throw _privateConstructorUsedError; // 분 단위 코스 소요 시간
   List<String> get tags => throw _privateConstructorUsedError;
   List<DatePlace> get places => throw _privateConstructorUsedError;
+  int get reviewCount => throw _privateConstructorUsedError;
+  int get estimatedTime => throw _privateConstructorUsedError;
+  int get estimatedCost => throw _privateConstructorUsedError;
+  String? get createdBy => throw _privateConstructorUsedError;
   bool get isFavorite => throw _privateConstructorUsedError;
+  bool get isFeatured => throw _privateConstructorUsedError;
 
   /// Serializes this DateCourse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,7 +64,12 @@ abstract class $DateCourseCopyWith<$Res> {
       int duration,
       List<String> tags,
       List<DatePlace> places,
-      bool isFavorite});
+      int reviewCount,
+      int estimatedTime,
+      int estimatedCost,
+      String? createdBy,
+      bool isFavorite,
+      bool isFeatured});
 }
 
 /// @nodoc
@@ -87,7 +97,12 @@ class _$DateCourseCopyWithImpl<$Res, $Val extends DateCourse>
     Object? duration = null,
     Object? tags = null,
     Object? places = null,
+    Object? reviewCount = null,
+    Object? estimatedTime = null,
+    Object? estimatedCost = null,
+    Object? createdBy = freezed,
     Object? isFavorite = null,
+    Object? isFeatured = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -130,9 +145,29 @@ class _$DateCourseCopyWithImpl<$Res, $Val extends DateCourse>
           ? _value.places
           : places // ignore: cast_nullable_to_non_nullable
               as List<DatePlace>,
+      reviewCount: null == reviewCount
+          ? _value.reviewCount
+          : reviewCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      estimatedTime: null == estimatedTime
+          ? _value.estimatedTime
+          : estimatedTime // ignore: cast_nullable_to_non_nullable
+              as int,
+      estimatedCost: null == estimatedCost
+          ? _value.estimatedCost
+          : estimatedCost // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdBy: freezed == createdBy
+          ? _value.createdBy
+          : createdBy // ignore: cast_nullable_to_non_nullable
+              as String?,
       isFavorite: null == isFavorite
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFeatured: null == isFeatured
+          ? _value.isFeatured
+          : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -157,7 +192,12 @@ abstract class _$$DateCourseImplCopyWith<$Res>
       int duration,
       List<String> tags,
       List<DatePlace> places,
-      bool isFavorite});
+      int reviewCount,
+      int estimatedTime,
+      int estimatedCost,
+      String? createdBy,
+      bool isFavorite,
+      bool isFeatured});
 }
 
 /// @nodoc
@@ -183,7 +223,12 @@ class __$$DateCourseImplCopyWithImpl<$Res>
     Object? duration = null,
     Object? tags = null,
     Object? places = null,
+    Object? reviewCount = null,
+    Object? estimatedTime = null,
+    Object? estimatedCost = null,
+    Object? createdBy = freezed,
     Object? isFavorite = null,
+    Object? isFeatured = null,
   }) {
     return _then(_$DateCourseImpl(
       id: null == id
@@ -226,9 +271,29 @@ class __$$DateCourseImplCopyWithImpl<$Res>
           ? _value._places
           : places // ignore: cast_nullable_to_non_nullable
               as List<DatePlace>,
+      reviewCount: null == reviewCount
+          ? _value.reviewCount
+          : reviewCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      estimatedTime: null == estimatedTime
+          ? _value.estimatedTime
+          : estimatedTime // ignore: cast_nullable_to_non_nullable
+              as int,
+      estimatedCost: null == estimatedCost
+          ? _value.estimatedCost
+          : estimatedCost // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdBy: freezed == createdBy
+          ? _value.createdBy
+          : createdBy // ignore: cast_nullable_to_non_nullable
+              as String?,
       isFavorite: null == isFavorite
           ? _value.isFavorite
           : isFavorite // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isFeatured: null == isFeatured
+          ? _value.isFeatured
+          : isFeatured // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -248,7 +313,12 @@ class _$DateCourseImpl implements _DateCourse {
       required this.duration,
       required final List<String> tags,
       required final List<DatePlace> places,
-      this.isFavorite = false})
+      required this.reviewCount,
+      required this.estimatedTime,
+      required this.estimatedCost,
+      this.createdBy,
+      this.isFavorite = false,
+      this.isFeatured = false})
       : _tags = tags,
         _places = places;
 
@@ -290,12 +360,23 @@ class _$DateCourseImpl implements _DateCourse {
   }
 
   @override
+  final int reviewCount;
+  @override
+  final int estimatedTime;
+  @override
+  final int estimatedCost;
+  @override
+  final String? createdBy;
+  @override
   @JsonKey()
   final bool isFavorite;
+  @override
+  @JsonKey()
+  final bool isFeatured;
 
   @override
   String toString() {
-    return 'DateCourse(id: $id, title: $title, description: $description, imageUrl: $imageUrl, rating: $rating, location: $location, category: $category, duration: $duration, tags: $tags, places: $places, isFavorite: $isFavorite)';
+    return 'DateCourse(id: $id, title: $title, description: $description, imageUrl: $imageUrl, rating: $rating, location: $location, category: $category, duration: $duration, tags: $tags, places: $places, reviewCount: $reviewCount, estimatedTime: $estimatedTime, estimatedCost: $estimatedCost, createdBy: $createdBy, isFavorite: $isFavorite, isFeatured: $isFeatured)';
   }
 
   @override
@@ -318,8 +399,18 @@ class _$DateCourseImpl implements _DateCourse {
                 other.duration == duration) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
             const DeepCollectionEquality().equals(other._places, _places) &&
+            (identical(other.reviewCount, reviewCount) ||
+                other.reviewCount == reviewCount) &&
+            (identical(other.estimatedTime, estimatedTime) ||
+                other.estimatedTime == estimatedTime) &&
+            (identical(other.estimatedCost, estimatedCost) ||
+                other.estimatedCost == estimatedCost) &&
+            (identical(other.createdBy, createdBy) ||
+                other.createdBy == createdBy) &&
             (identical(other.isFavorite, isFavorite) ||
-                other.isFavorite == isFavorite));
+                other.isFavorite == isFavorite) &&
+            (identical(other.isFeatured, isFeatured) ||
+                other.isFeatured == isFeatured));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -336,7 +427,12 @@ class _$DateCourseImpl implements _DateCourse {
       duration,
       const DeepCollectionEquality().hash(_tags),
       const DeepCollectionEquality().hash(_places),
-      isFavorite);
+      reviewCount,
+      estimatedTime,
+      estimatedCost,
+      createdBy,
+      isFavorite,
+      isFeatured);
 
   /// Create a copy of DateCourse
   /// with the given fields replaced by the non-null parameter values.
@@ -366,7 +462,12 @@ abstract class _DateCourse implements DateCourse {
       required final int duration,
       required final List<String> tags,
       required final List<DatePlace> places,
-      final bool isFavorite}) = _$DateCourseImpl;
+      required final int reviewCount,
+      required final int estimatedTime,
+      required final int estimatedCost,
+      final String? createdBy,
+      final bool isFavorite,
+      final bool isFeatured}) = _$DateCourseImpl;
 
   factory _DateCourse.fromJson(Map<String, dynamic> json) =
       _$DateCourseImpl.fromJson;
@@ -392,7 +493,17 @@ abstract class _DateCourse implements DateCourse {
   @override
   List<DatePlace> get places;
   @override
+  int get reviewCount;
+  @override
+  int get estimatedTime;
+  @override
+  int get estimatedCost;
+  @override
+  String? get createdBy;
+  @override
   bool get isFavorite;
+  @override
+  bool get isFeatured;
 
   /// Create a copy of DateCourse
   /// with the given fields replaced by the non-null parameter values.
