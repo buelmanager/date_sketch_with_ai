@@ -1,20 +1,56 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../services/api_service.dart';
 import '../models/ai_course_request.dart';
 import '../models/date_course.dart';
 import '../models/date_place.dart';
 import '../utils/app_logger.dart';
 
 class AICourseRepository {
-  // 실제 환경에서는 API 호출, DB 접근 등이 필요합니다.
-  // 여기서는 예시로 더미 데이터를 반환합니다.
+  final APIService? _apiService;
+  final FirebaseFirestore? _firestore;
+  final FirebaseAuth? _auth;
+
+  AICourseRepository({
+    APIService? apiService,
+    FirebaseFirestore? firestore,
+    FirebaseAuth? auth,
+  })  : _apiService = apiService,
+        _firestore = firestore,
+        _auth = auth;
 
   // 최근 위치 가져오기
   Future<List<String>> getRecentLocations() async {
-    // 실제로는 사용자의 이전 기록이나 위치 데이터베이스에서 가져와야 함
-    await Future.delayed(const Duration(milliseconds: 300));
-    return ['강남', '홍대', '이태원', '명동', '여의도', '잠실'];
+    try {
+      // Firestore가 있으면 사용자의 최근 위치를 가져옴
+      if (_firestore != null && _auth != null && _auth!.currentUser != null) {
+        final userId = _auth!.currentUser!.uid;
+        final snapshot = await _firestore!
+            .collection('user_selections')
+            .where('userId', isEqualTo: userId)
+            .orderBy('timestamp', descending: true)
+            .limit(5)
+            .get();
+
+        if (snapshot.docs.isNotEmpty) {
+          final locations = snapshot.docs
+              .map((doc) => doc.data()['location'] as String)
+              .toSet() // 중복 제거
+              .toList();
+          return locations;
+        }
+      }
+
+      // Firestore 없거나 데이터가 없으면 더미 데이터 반환
+      await Future.delayed(const Duration(milliseconds: 300));
+      return ['강남', '홍대', '이태원', '명동', '여의도', '잠실'];
+    } catch (e) {
+      AppLogger.e('최근 위치 조회 실패', e);
+      return ['강남', '홍대', '이태원', '명동', '여의도', '잠실'];
+    }
   }
 
   // 인기 테마 가져오기
@@ -27,7 +63,21 @@ class AICourseRepository {
   // AI 코스 생성 요청
   Future<DateCourse> generateAICourse(AICourseRequest request) async {
     try {
-      // 실제로는 AI API 호출
+      // API 서비스가 있으면 실제 API 호출
+      if (_apiService != null) {
+        try {
+          final response = await _apiService!.post(
+            '/generate-course',
+            data: request.toJson(),
+          );
+          return DateCourse.fromJson(response.data);
+        } catch (e) {
+          AppLogger.e('API 서비스를 통한 코스 생성 실패', e);
+          // API 호출 실패 시 더미 데이터로 대체
+        }
+      }
+
+      // API 서비스가 없거나 실패 시 더미 데이터 생성
       AppLogger.d('AI 코스 생성 요청: ${request.toJson()}');
 
       // API 호출 시뮬레이션 (2-4초 딜레이)
@@ -78,11 +128,74 @@ class AICourseRepository {
         estimatedTime: request.duration,
         estimatedCost: request.budget,
         isFavorite: false,
-        places: places, location: '', duration: 1, tags: [],
+        places: places, location: request.location, duration: request.duration, tags: [request.theme, request.mood],
       );
     } catch (e) {
       AppLogger.e('AI 코스 생성 중 오류 발생', e);
       rethrow;
+    }
+  }
+
+  // 사용자 선택 정보 저장
+  Future<void> saveUserSelections(AICourseRequest request) async {
+    try {
+      // Firestore와 Auth가 없으면 작업 스킵
+      if (_firestore == null || _auth == null || _auth!.currentUser == null) {
+        AppLogger.w('Firestore 또는 Auth가 초기화되지 않았거나 로그인되지 않음');
+        return;
+      }
+
+      final userId = _auth!.currentUser!.uid;
+      final timestamp = DateTime.now();
+      final selectionData = {
+        'userId': userId,
+        'location': request.location,
+        'theme': request.theme,
+        'budget': request.budget,
+        'mood': request.mood,
+        'duration': request.duration,
+        'additionalInfo': request.additionalInfo,
+        'timestamp': timestamp,
+      };
+
+      await _firestore!
+          .collection('user_selections')
+          .doc('${userId}_${timestamp.millisecondsSinceEpoch}')
+          .set(selectionData);
+
+      AppLogger.d('사용자 선택 정보 저장 완료');
+    } catch (e) {
+      AppLogger.e('사용자 선택 정보 저장 실패', e);
+      // 저장 실패해도 코스 생성은 계속 진행
+    }
+  }
+
+  Future<void> saveGeneratedCourse(DateCourse course) async {
+    try {
+      final userId = _auth!.currentUser?.uid;
+      if (userId == null) {
+        AppLogger.w('비로그인 상태에서 코스 정보 저장 시도');
+        return;
+      }
+
+      final timestamp = DateTime.now();
+
+      // 객체를 JSON으로 변환 후 다시 Map으로 파싱 (중첩 객체 처리)
+      final jsonString = jsonEncode(course.toJson());
+      final courseData = jsonDecode(jsonString) as Map<String, dynamic>;
+
+      courseData['userId'] = userId;
+      courseData['generatedAt'] = timestamp;
+
+      await _firestore!
+          .collection('generated_courses')
+          .doc(course.id)
+          .set(courseData);
+
+      AppLogger.d('생성된 코스 정보 저장 완료');
+    } catch (e) {
+      AppLogger.e('생성된 코스 정보 저장 실패', e);
+      // 저장 실패해도 UI 표시는 계속 진행
     }
   }
 

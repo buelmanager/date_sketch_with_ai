@@ -158,12 +158,20 @@ class AICourseViewModel extends StateNotifier<AICourseState> {
         additionalInfo: state.additionalInfo,
       );
 
+      AppLogger.d(request.toString());
+
+      // 사용자 선택 데이터 저장
+      //await _repository.saveUserSelections(request);
+
       final course = await _repository.generateAICourse(request);
 
       state = state.copyWith(
         generatedCourse: course,
         status: CourseCreationStatus.success,
       );
+
+      // 생성된 코스 정보 Firestore에 저장
+      //await _repository.saveGeneratedCourse(course);
     } catch (e) {
       AppLogger.e('AI 코스 생성 실패', e);
       state = state.copyWith(
@@ -193,5 +201,25 @@ class AICourseViewModel extends StateNotifier<AICourseState> {
   // 인기 테마 선택
   void selectPopularTheme(String theme) {
     state = state.copyWith(theme: theme);
+  }
+
+  // AICourseViewModel에 메서드 추가
+// ai_course_view_model.dart 파일에 아래 메서드 추가
+
+// 코스 수동 저장 (사용자가 "저장하기" 버튼 클릭 시)
+  Future<bool> saveCourse() async {
+    try {
+      if (state.generatedCourse == null) {
+        return false;
+      }
+
+      // 코스 정보 Firestore에 저장
+      await _repository.saveGeneratedCourse(state.generatedCourse!);
+
+      return true;
+    } catch (e) {
+      AppLogger.e('코스 저장 실패', e);
+      return false;
+    }
   }
 }

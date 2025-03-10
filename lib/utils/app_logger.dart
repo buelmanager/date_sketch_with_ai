@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 class CustomLogPrinter extends LogPrinter {
   final PrettyPrinter _prettyPrinter = PrettyPrinter(
     methodCount: 3, // 기본적으로 호출 스택을 출력하지 않음
-    errorMethodCount: 5, // 에러 발생 시 호출 스택 깊이
+    errorMethodCount: 7, // 에러 발생 시 호출 스택 깊이
     lineLength: 80, // 한 줄 길이 제한
     colors: false, // ANSI 색상 제거 (가독성 향상)
     printEmojis: true, // 이모지 활성화

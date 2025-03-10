@@ -1,4 +1,5 @@
 // lib/view_models/auth_view_model.dart
+import 'package:date_sketch_with_ai/utils/app_logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/auth_request.dart';
 import '../models/user.dart';
@@ -293,6 +294,7 @@ class RegisterViewModel extends StateNotifier<RegisterFormState> {
   }
 
   Future<RegisterResult> register() async {
+    AppLogger.d("login :: authViewModel register");
     // 입력값 검증
     if (state.email.isEmpty) {
       state = state.copyWith(emailError: '이메일을 입력해주세요.');
@@ -376,6 +378,16 @@ class AuthViewModel extends StateNotifier<AuthState> {
     }
   }
 
+// AuthViewModel 클래스에 추가할 메서드
+  void setLoading(bool loading) {
+    AppLogger.d("AuthViewModel - setLoading: $loading");
+
+    state = state.copyWith(
+      isLoading: true,
+    );
+
+  }
+
   Future<void> login(LoginRequest request) async {
     state = state.copyWith(isLoading: true, clearError: true);
     try {
@@ -395,9 +407,16 @@ class AuthViewModel extends StateNotifier<AuthState> {
   }
 
   Future<void> register(RegisterRequest request) async {
+
+
+    AppLogger.d("register start");
+
     state = state.copyWith(isLoading: true, clearError: true);
     try {
       final user = await _repository.register(request);
+
+      AppLogger.d("register result");
+
       state = state.copyWith(
         user: user,
         isAuthenticated: true,
@@ -421,6 +440,8 @@ class AuthViewModel extends StateNotifier<AuthState> {
         isAuthenticated: false,
         isLoading: false,
       );
+
+      AppLogger.d("state user :::  ${state.user}");
     } catch (e) {
       state = state.copyWith(
         isLoading: false,

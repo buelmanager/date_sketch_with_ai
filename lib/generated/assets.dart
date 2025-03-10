@@ -2,8 +2,9 @@
 class Assets {
   Assets._();
 
-  static const String assetsGoogleLogo = 'assets/google_logo.png';
+  static const String aiAiService = 'lib/services/ai/ai_service.dart';
   static const String authAuthWrapper = 'lib/views/auth/auth_wrapper.dart';
+  static const String authForgotPasswordScreen = 'lib/views/auth/forgot_password_screen.dart';
   static const String authLoginScreen = 'lib/views/auth/login_screen.dart';
   static const String authRegisterScreen = 'lib/views/auth/register_screen.dart';
   static const String commonAppBottomNavigation = 'lib/views/common/app_bottom_navigation.dart';
@@ -19,6 +20,7 @@ class Assets {
   static const String fontsPretendardR = 'assets/fonts/Pretendard-R.ttf';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String homeHomeScreen = 'lib/views/home/home_screen.dart';
+  static const String iconsGoogleLogo = 'assets/icons/google_logo.png';
   static const String libApp = 'lib/app.dart';
   static const String libFirebaseOptions = 'lib/firebase_options.dart';
   static const String libMain = 'lib/main.dart';
@@ -45,6 +47,9 @@ class Assets {
   static const String repositoriesFavoritesRepository = 'lib/repositories/favorites_repository.dart';
   static const String repositoriesUserProfileRepository = 'lib/repositories/user_profile_repository.dart';
   static const String repositoriesUserRepository = 'lib/repositories/user_repository.dart';
+  static const String servicesApiService = 'lib/services/api_service.dart';
+  static const String servicesAuthService = 'lib/services/auth_service.dart';
+  static const String servicesFirebaseCourseService = 'lib/services/firebase_course_service.dart';
   static const String utilsAppLogger = 'lib/utils/app_logger.dart';
   static const String utilsTheme = 'lib/utils/theme.dart';
   static const String viewModelsAiCourseViewModel = 'lib/view_models/ai_course_view_model.dart';

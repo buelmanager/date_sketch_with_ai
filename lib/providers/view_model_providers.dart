@@ -1,19 +1,26 @@
 // lib/providers/view_model_providers.dart 에 추가
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dio/dio.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-import '../models/ai_course_request.dart';
+import '../repositories/auth_repository.dart';
 import '../repositories/user_profile_repository.dart';
 
 import '../models/date_place.dart';
 import '../models/user_profile.dart';
 import '../providers/repository_providers.dart';
+import '../services/auth_service.dart';
 import '../utils/app_logger.dart';
 import '../view_models/explore_view_model.dart';
 import '../view_models/home_view_model.dart';
 import '../repositories/ai_course_repository.dart';
 import '../view_models/ai_course_view_model.dart';
+import '../services/api_service.dart';
 
 
 // 사용자 프로필 저장소 프로바이더
@@ -52,7 +59,7 @@ final exploreViewModelProvider = StateNotifierProvider<ExploreViewModel, Explore
   } else {
     // 기본 더미 데이터
     places = [
-       DatePlace(
+      DatePlace(
         id: '1',
         name: '망원 한강공원',
         category: '야외',
@@ -95,13 +102,40 @@ class UserProfileState {
 
 class UserProfileViewModel extends StateNotifier<UserProfileState> {
   final UserProfileRepository _repository;
+  StreamSubscription<User?>? _authSubscription;
 
   UserProfileViewModel(this._repository) : super(UserProfileState(isLoading: true)) {
     // 초기화 시 사용자 프로필 로드
     loadUserProfile();
+
+    // Firebase Auth 상태 변경 감지
+    _subscribeToAuthChanges();
+  }
+
+  // UserProfileViewModel 클래스에 추가할 메서드
+  Future<void> clearProfile() async {
+    AppLogger.d("Clearing user profile state");
+    state = UserProfileState(isLoading: false, profile: null);
+  }
+
+  // Firebase Auth 상태 변경 구독
+  void _subscribeToAuthChanges() async {
+
+    _authSubscription = FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      AppLogger.d("Auth state changed: ${user != null ? 'User logged in' : 'User logged out'}");
+      if (user != null) {
+        // 사용자가 로그인한 경우 프로필 로드
+        loadUserProfile();
+      } else {
+        // 사용자가 로그아웃한 경우 상태 초기화
+        state = UserProfileState(isLoading: false);
+      }
+    });
   }
 
   Future<void> loadUserProfile() async {
+
+    AppLogger.d("loadUserProfile start");
     try {
       state = state.copyWith(isLoading: true, errorMessage: null);
       final profile = await _repository.getUserProfile();
@@ -134,7 +168,10 @@ class UserProfileViewModel extends StateNotifier<UserProfileState> {
   }
 
   Future<void> logout() async {
+
     try {
+      await AuthService().signOut();
+      await GoogleSignIn().signOut();
       state = state.copyWith(isLoading: true, errorMessage: null);
       await _repository.logout();
       // 로그아웃 후 상태 초기화 또는 로그인 화면으로 이동 로직 추가
@@ -148,10 +185,68 @@ class UserProfileViewModel extends StateNotifier<UserProfileState> {
   }
 }
 
+// Firebase 서비스 프로바이더
+final firebaseFirestoreProvider = Provider<FirebaseFirestore>((ref) {
+  return FirebaseFirestore.instance;
+});
+
+final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
+  return FirebaseAuth.instance;
+});
+
+// Dio 프로바이더
+final dioProvider = Provider<Dio>((ref) {
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://your-api-base-url.com/api', // 실제 API URL로 변경
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    ),
+  );
+
+  // 인터셉터 추가 (필요시)
+  dio.interceptors.add(LogInterceptor(
+    requestBody: true,
+    responseBody: true,
+  ));
+
+  return dio;
+});
+
+// API 서비스 프로바이더
+final apiServiceProvider = Provider<APIService>((ref) {
+  final dio = ref.watch(dioProvider);
+  return APIService(
+    dio: dio,
+    useMockData: true, // 테스트용 더미 데이터 사용 (실제 API 연동 시 false로 변경)
+  );
+});
 
 // AI 코스 Repository Provider
 final aiCourseRepositoryProvider = Provider<AICourseRepository>((ref) {
-  return AICourseRepository();
+  // 개발 환경에 따라 선택적으로 의존성 주입
+  final apiService = ref.watch(apiServiceProvider);
+
+  // Firebase 사용 여부에 따라 선택적으로 주입
+  try {
+    final firestore = ref.watch(firebaseFirestoreProvider);
+    final auth = ref.watch(firebaseAuthProvider);
+
+    return AICourseRepository(
+      apiService: apiService,
+      firestore: firestore,
+      auth: auth,
+    );
+  } catch (e) {
+    AppLogger.w('Firebase 초기화 실패, 더미 데이터만 사용합니다: $e');
+    return AICourseRepository(
+      apiService: apiService,
+    );
+  }
 });
 
 // AI 코스 ViewModel Provider

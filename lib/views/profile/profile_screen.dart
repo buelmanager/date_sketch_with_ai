@@ -1,9 +1,13 @@
 // lib/views/profile/profile_screen.dart
+import 'package:date_sketch_with_ai/utils/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../providers/auth_providers.dart';
 import '../../providers/view_model_providers.dart';
 import '../../utils/theme.dart';
+import '../../view_models/auth_view_model.dart';
+import '../auth/auth_wrapper.dart';
 import '../auth/login_screen.dart';
 import '../common/app_bottom_navigation.dart';
 
@@ -12,6 +16,9 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    AppLogger.d("ProfileScreen build");
+
     final userProfileState = ref.watch(userProfileViewModelProvider);
 
     return Scaffold(
@@ -60,7 +67,7 @@ class ProfileScreen extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
+                  builder: (context) => const AuthWrapper(),
                 ),
               );
             },
@@ -381,10 +388,34 @@ class ProfileScreen extends ConsumerWidget {
                         child: const Text('취소'),
                       ),
                       TextButton(
-                        onPressed: () {
-                          // 로그아웃 처리
-                          ref.read(userProfileViewModelProvider.notifier).logout();
-                          Navigator.pop(context);
+                        onPressed: () async {
+                          Navigator.pop(context); // 다이얼로그 닫기
+
+                          // 로그아웃 처리 - 순서 변경 및 await 추가
+                          try {
+                            final authVM = ref.read(authViewModelProvider.notifier);
+                            final profileVM = ref.read(userProfileViewModelProvider.notifier);
+
+                            // 1. 사용자 프로필 상태 초기화
+                            await profileVM.clearProfile();
+
+                            // 2. Auth 로그아웃 (Firebase 인증 상태 제거)
+                            await authVM.logout();
+
+                            // 스낵바로 로그아웃 성공 알림
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('로그아웃되었습니다')),
+                              );
+                            }
+                          } catch (e) {
+                            // 에러 처리
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('로그아웃 중 오류가 발생했습니다: $e')),
+                              );
+                            }
+                          }
                         },
                         child: Text(
                           '로그아웃',
