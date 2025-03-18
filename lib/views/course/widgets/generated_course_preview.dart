@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../models/date_course.dart';
 import '../../../utils/theme.dart';
-import '../../../providers/view_model_providers.dart';
+import '../../../view_models/ai_course_view_model.dart';
 
 class GeneratedCoursePreview extends ConsumerWidget {
   final DateCourse course;

@@ -1,4 +1,5 @@
 // lib/views/auth/login_screen.dart
+import 'package:date_sketch_with_ai/utils/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/auth_request.dart';
@@ -39,7 +40,7 @@ class LoginScreen extends ConsumerWidget {
                   const SizedBox(height: 20),
                   _buildDivider(),
                   const SizedBox(height: 20),
-                  _buildSocialLoginButtons(context,ref),
+                  _buildSocialLoginButtons(context, ref),
                   const SizedBox(height: 30),
                   _buildRegisterLink(context),
                 ],
@@ -75,7 +76,8 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildEmailField(BuildContext context, WidgetRef ref, LoginFormState state) {
+  Widget _buildEmailField(
+      BuildContext context, WidgetRef ref, LoginFormState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -126,7 +128,8 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildPasswordField(BuildContext context, WidgetRef ref, LoginFormState state) {
+  Widget _buildPasswordField(
+      BuildContext context, WidgetRef ref, LoginFormState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -210,11 +213,14 @@ class LoginScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLoginButton(BuildContext context, WidgetRef ref, LoginFormState loginState, AuthState authState) {
+  Widget _buildLoginButton(BuildContext context, WidgetRef ref,
+      LoginFormState loginState, AuthState authState) {
     // 로그인 버튼 활성화 여부 확인 - 이메일과 비밀번호가 모두 입력되었는지 검사
     final bool isEnabled = !authState.isLoading &&
         loginState.email.isNotEmpty &&
         loginState.password.isNotEmpty;
+
+    AppLogger.d("isEnabled $isEnabled");
 
     return SizedBox(
       width: double.infinity,
@@ -222,34 +228,35 @@ class LoginScreen extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: isEnabled
             ? () async {
-          // 키보드 닫기
-          FocusScope.of(context).unfocus();
+                // 키보드 닫기
+                FocusScope.of(context).unfocus();
 
-          final result = await ref.read(loginViewModelProvider.notifier).login();
+                final result =
+                    await ref.read(loginViewModelProvider.notifier).login();
 
-          if (result == LoginResult.success) {
-            // 로그인 성공 시 AuthViewModel 업데이트
-            await ref.read(authViewModelProvider.notifier).login(
-              LoginRequest(
-                email: loginState.email,
-                password: loginState.password,
-              ),
-            );
+                if (result == LoginResult.success) {
+                  // 로그인 성공 시 AuthViewModel 업데이트
+                  await ref.read(authViewModelProvider.notifier).login(
+                        LoginRequest(
+                          email: loginState.email,
+                          password: loginState.password,
+                        ),
+                      );
 
-            // 홈 화면으로 이동
-            Navigator.of(context).pushReplacementNamed('/home');
-          } else if (result == LoginResult.invalidCredentials) {
-            // 잘못된 인증 정보
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('이메일 또는 비밀번호가 올바르지 않습니다.')),
-            );
-          } else if (result == LoginResult.error) {
-            // 기타 오류
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('로그인 중 오류가 발생했습니다.')),
-            );
-          }
-        }
+                  // 홈 화면으로 이동
+                  Navigator.of(context).pushReplacementNamed('/home');
+                } else if (result == LoginResult.invalidCredentials) {
+                  // 잘못된 인증 정보
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('이메일 또는 비밀번호가 올바르지 않습니다.')),
+                  );
+                } else if (result == LoginResult.error) {
+                  // 기타 오류
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('로그인 중 오류가 발생했습니다.')),
+                  );
+                }
+              }
             : null, // 필수 항목이 입력되지 않으면 버튼 비활성화
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
@@ -264,16 +271,16 @@ class LoginScreen extends ConsumerWidget {
         ),
         child: authState.isLoading
             ? const CircularProgressIndicator(
-          color: Colors.white,
-          strokeWidth: 3,
-        )
+                color: Colors.white,
+                strokeWidth: 3,
+              )
             : const Text(
-          '로그인',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+                '로그인',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
       ),
     );
   }

@@ -250,10 +250,10 @@ final aiCourseRepositoryProvider = Provider<AICourseRepository>((ref) {
 });
 
 // AI 코스 ViewModel Provider
-final aiCourseViewModelProvider = StateNotifierProvider<AICourseViewModel, AICourseState>((ref) {
-  final repository = ref.watch(aiCourseRepositoryProvider);
-  return AICourseViewModel(repository);
-});
+// final aiCourseViewModelProvider = StateNotifierProvider<AICourseViewModel, AICourseState>((ref) {
+//   final repository = ref.watch(aiCourseRepositoryProvider);
+//   return AICourseViewModel(repository);
+// });
 
 // 7. HomeScreen 수정 (PromotionBanner의 onCreateCourse 콜백 수정)
 // HomeScreen에서 PromotionBanner의 onCreateCourse 콜백을 수정해야 합니다.

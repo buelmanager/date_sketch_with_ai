@@ -2,7 +2,10 @@
 class Assets {
   Assets._();
 
+  static const String aiAiCourseService = 'lib/services/ai/ai_course_service.dart';
   static const String aiAiService = 'lib/services/ai/ai_service.dart';
+  static const String aiGeminiService = 'lib/services/ai/gemini_service.dart';
+  static const String aiRecommendationService = 'lib/services/ai/recommendation_service.dart';
   static const String authAuthWrapper = 'lib/views/auth/auth_wrapper.dart';
   static const String authForgotPasswordScreen = 'lib/views/auth/forgot_password_screen.dart';
   static const String authLoginScreen = 'lib/views/auth/login_screen.dart';
@@ -11,6 +14,8 @@ class Assets {
   static const String commonLoadingOverlay = 'lib/views/common/loading_overlay.dart';
   static const String courseAiCourseCreatorScreen = 'lib/views/course/ai_course_creator_screen.dart';
   static const String courseCourseDetailScreen = 'lib/views/course/course_detail_screen.dart';
+  static const String courseMapSelectionScreen = 'lib/views/course/map_selection_screen.dart';
+  static const String courseRecommendationScreen = 'lib/views/course/recommendation_screen.dart';
   static const String courseRecommendedCoursesScreen = 'lib/views/course/recommended_courses_screen.dart';
   static const String exploreExploreScreen = 'lib/views/explore/explore_screen.dart';
   static const String favoritesFavoritesScreen = 'lib/views/favorites/favorites_screen.dart';
@@ -50,6 +55,8 @@ class Assets {
   static const String servicesApiService = 'lib/services/api_service.dart';
   static const String servicesAuthService = 'lib/services/auth_service.dart';
   static const String servicesFirebaseCourseService = 'lib/services/firebase_course_service.dart';
+  static const String settingsSettingsScreen = 'lib/views/settings/settings_screen.dart';
+  static const String timelineTileTimelineCoursePreview = 'lib/views/timeline_tile/timeline_course_preview.dart';
   static const String utilsAppLogger = 'lib/utils/app_logger.dart';
   static const String utilsTheme = 'lib/utils/theme.dart';
   static const String viewModelsAiCourseViewModel = 'lib/view_models/ai_course_view_model.dart';

@@ -26,6 +26,8 @@ _$DateCourseImpl _$$DateCourseImplFromJson(Map<String, dynamic> json) =>
       createdBy: json['createdBy'] as String?,
       isFavorite: json['isFavorite'] as bool? ?? false,
       isFeatured: json['isFeatured'] as bool? ?? false,
+      transportationInfo: json['transportationInfo'] as String?,
+      alternativeInfo: json['alternativeInfo'] as String?,
     );
 
 Map<String, dynamic> _$$DateCourseImplToJson(_$DateCourseImpl instance) =>
@@ -46,4 +48,6 @@ Map<String, dynamic> _$$DateCourseImplToJson(_$DateCourseImpl instance) =>
       'createdBy': instance.createdBy,
       'isFavorite': instance.isFavorite,
       'isFeatured': instance.isFeatured,
+      'transportationInfo': instance.transportationInfo,
+      'alternativeInfo': instance.alternativeInfo,
     };

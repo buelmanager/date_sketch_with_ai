@@ -148,6 +148,14 @@ class AuthState {
 class LoginViewModel extends StateNotifier<LoginFormState> {
   final AuthRepository _repository;
 
+  void init(){
+    AppLogger.d("loginViewModel init");
+    state = state.copyWith(
+      email: '',
+      emailError: '',
+    );
+  }
+
   LoginViewModel(this._repository) : super(LoginFormState());
 
   void updateEmail(String email) {
@@ -208,6 +216,8 @@ class LoginViewModel extends StateNotifier<LoginFormState> {
 
       // 로그인 요청
       await _repository.login(request);
+
+      init();
       return LoginResult.success;
 
     } catch (e) {

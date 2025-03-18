@@ -104,7 +104,7 @@ class AIService {
       estimatedCost: request.budget,
       createdBy: 'AI',
       isFavorite: false,
-      isFeatured: false,
+      isFeatured: false, transportationInfo: '', alternativeInfo: '',
     );
   }
 

@@ -27,7 +27,11 @@ class AICourseRepository {
     try {
       // Firestore가 있으면 사용자의 최근 위치를 가져옴
       if (_firestore != null && _auth != null && _auth!.currentUser != null) {
+
         final userId = _auth!.currentUser!.uid;
+
+        AppLogger.d("userId : $userId");
+
         final snapshot = await _firestore!
             .collection('user_selections')
             .where('userId', isEqualTo: userId)
@@ -90,7 +94,7 @@ class AICourseRepository {
           name: '${request.mood} ${request.theme} 장소',
           category: _getCategoryFromTheme(request.theme),
           address: '${request.location} 어딘가',
-          rating: 4.5 + (Random().nextDouble() / 2),
+          rating: 4.5,
           reviewCount: 100 + Random().nextInt(900),
           imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
           description: '${request.mood} 분위기의 멋진 장소입니다. ${request.theme}을(를) 즐기기에 완벽한 곳이에요.', tags: [], latitude: 1, longitude: 1,
@@ -110,7 +114,7 @@ class AICourseRepository {
           name: '${request.mood} 특별 장소',
           category: _getRandomCategory(),
           address: '${request.location} 북쪽',
-          rating: 4.5 + (Random().nextDouble() / 2),
+          rating: 4.5 ,
           reviewCount: 100 + Random().nextInt(900),
           imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
           description: '${request.duration}시간 코스의 마지막을 장식할 완벽한 장소입니다. ${request.additionalInfo ?? '특별한 경험을 선사합니다.'}', tags: [], latitude: 1, longitude: 1,
@@ -121,14 +125,14 @@ class AICourseRepository {
         id: 'course_${Random().nextInt(1000)}',
         title: '${request.location}의 ${request.mood} ${request.theme} 데이트',
         description: '${request.budget}원으로 즐기는 ${request.duration}시간 코스의 ${request.mood} 데이트입니다. ${request.additionalInfo ?? ''}',
-        rating: 4.5 + (Random().nextDouble() / 2),
+        rating: 4.5,
         reviewCount: 10 + Random().nextInt(90),
         imageUrl: 'https://picsum.photos/500/300?random=${Random().nextInt(100)}',
         category: request.theme,
         estimatedTime: request.duration,
         estimatedCost: request.budget,
         isFavorite: false,
-        places: places, location: request.location, duration: request.duration, tags: [request.theme, request.mood],
+        places: places, location: request.location, duration: request.duration, tags: [request.theme, request.mood], transportationInfo: '', alternativeInfo: '',
       );
     } catch (e) {
       AppLogger.e('AI 코스 생성 중 오류 발생', e);

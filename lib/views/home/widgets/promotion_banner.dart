@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../../utils/theme.dart';
@@ -32,21 +34,30 @@ class PromotionBanner extends StatelessWidget {
             right: 0,
             bottom: 0,
             top: 0,
-            child: Image.asset(
-              'assets/images/couple.png',
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    color: AppTheme.primaryColor.withOpacity(0.3),
-                  ),
-                );
-              },
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              child: SizedBox(
+                width: 120,
+                child: Image.network(
+                  'https://picsum.photos/120/120?random=${Random().nextInt(100)}',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        color: AppTheme.primaryColor.withOpacity(0.3),
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
           ),
           Padding(
@@ -56,12 +67,13 @@ class PromotionBanner extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
@@ -69,7 +81,7 @@ class PromotionBanner extends StatelessWidget {
                         color: AppTheme.primaryColor,
                         size: 14,
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Text(
                         "AI 맞춤 데이트",
                         style: TextStyle(
@@ -94,7 +106,8 @@ class PromotionBanner extends StatelessWidget {
                 ElevatedButton(
                   onPressed: onCreateCourse,
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
                     backgroundColor: AppTheme.primaryColor,
                   ),
                   child: const Text(
