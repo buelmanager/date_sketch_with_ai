@@ -1,5 +1,6 @@
 // lib/repositories/auth_repository.dart
 import 'dart:async';
+import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +11,7 @@ class AuthRepository {
   static const String _userKey = 'user_data';
   final firebase.FirebaseAuth _firebaseAuth = firebase.FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  bool isLoading = false;
 
   // 이메일/비밀번호 로그인
   Future<User> login(LoginRequest request) async {
@@ -78,42 +80,53 @@ class AuthRepository {
 
   // 회원가입 기능
   Future<User> register(RegisterRequest request) async {
-    try {
-      // Firebase 이메일/비밀번호 회원가입
-      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: request.email,
-        password: request.password,
-      );
 
-      // 사용자 프로필 업데이트 (이름 설정)
-      await userCredential.user?.updateDisplayName(request.name);
+      isLoading = true;
+      try {
 
-      // Firebase 사용자 정보로 앱 User 모델 생성
-      final user = User(
-        id: userCredential.user?.uid ?? '',
-        email: request.email,
-        name: request.name,
-        phoneNumber: request.phoneNumber,
-      );
+        AppLogger.d("email : ${request.email}");
+        AppLogger.d("password : ${request.password}");
 
-      // 로컬 저장소에 사용자 정보 저장
-      await _saveUserData(user);
+        // Firebase 이메일/비밀번호 회원가입
+        final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: request.email,
+          password: request.password,
+        );
 
-      return user;
-    } on firebase.FirebaseAuthException catch (e) {
-      AppLogger.e('회원가입 오류: ${e.code}', e);
-      if (e.code == 'email-already-in-use') {
-        throw Exception('이미 사용 중인 이메일입니다.');
-      } else if (e.code == 'weak-password') {
-        throw Exception('비밀번호가 너무 약합니다.');
-      } else {
-        throw Exception('회원가입 중 오류가 발생했습니다: ${e.message}');
+        // 사용자 프로필 업데이트 (이름 설정)
+        await userCredential.user?.updateDisplayName(request.name);
+
+        // Firebase 사용자 정보로 앱 User 모델 생성
+        final user = User(
+          id: userCredential.user?.uid ?? '',
+          email: request.email,
+          name: request.name,
+          phoneNumber: request.phoneNumber,
+        );
+
+        // 로컬 저장소에 사용자 정보 저장
+        await _saveUserData(user);
+
+        return user;
+      } on firebase.FirebaseAuthException catch (e) {
+        AppLogger.e('회원가입 오류: ${e.code}', e);
+        if (e.code == 'email-already-in-use') {
+          throw Exception('이미 사용 중인 이메일입니다.');
+        } else if (e.code == 'weak-password') {
+          throw Exception('비밀번호가 너무 약합니다.');
+        } else {
+          throw Exception('회원가입 중 오류가 발생했습니다: ${e.message}');
+        }
+      } catch (e) {
+        AppLogger.e('회원가입 중 예상치 못한 오류', e);
+        throw Exception('회원가입 중 오류가 발생했습니다.');
       }
-    } catch (e) {
-      AppLogger.e('회원가입 중 예상치 못한 오류', e);
-      throw Exception('회원가입 중 오류가 발생했습니다.');
-    }
+
+
   }
+
+
+
 
   // 로그아웃 기능
   Future<void> logout() async {

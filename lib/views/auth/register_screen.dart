@@ -1,4 +1,5 @@
 // lib/views/auth/register_screen.dart
+import 'package:date_sketch_with_ai/utils/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/auth_request.dart';
@@ -34,34 +35,42 @@ class RegisterScreen extends ConsumerWidget {
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                _buildNameField(context, ref, registerState),
-                const SizedBox(height: 20),
-                _buildEmailField(context, ref, registerState),
-                const SizedBox(height: 20),
-                _buildPasswordField(context, ref, registerState),
-                const SizedBox(height: 20),
-                _buildConfirmPasswordField(context, ref, registerState),
-                const SizedBox(height: 20),
-                _buildPhoneNumberField(context, ref, registerState),
-                const SizedBox(height: 20),
-                _buildTermsAgreement(context),
-                const SizedBox(height: 40),
-                _buildRegisterButton(context, ref, registerState, authState),
-              ],
-            ),
-          ),
+          child: authState.isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 5,
+                  ),
+                )
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      _buildNameField(context, ref, registerState),
+                      const SizedBox(height: 20),
+                      _buildEmailField(context, ref, registerState),
+                      const SizedBox(height: 20),
+                      _buildPasswordField(context, ref, registerState),
+                      const SizedBox(height: 20),
+                      _buildConfirmPasswordField(context, ref, registerState),
+                      const SizedBox(height: 20),
+                      _buildPhoneNumberField(context, ref, registerState),
+                      const SizedBox(height: 20),
+                      _buildTermsAgreement(context),
+                      const SizedBox(height: 40),
+                      _buildRegisterButton(
+                          context, ref, registerState, authState),
+                    ],
+                  ),
+                ),
         ),
       ),
     );
   }
 
-  Widget _buildNameField(BuildContext context, WidgetRef ref, RegisterFormState state) {
+  Widget _buildNameField(
+      BuildContext context, WidgetRef ref, RegisterFormState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -112,7 +121,8 @@ class RegisterScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildEmailField(BuildContext context, WidgetRef ref, RegisterFormState state) {
+  Widget _buildEmailField(
+      BuildContext context, WidgetRef ref, RegisterFormState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -163,7 +173,8 @@ class RegisterScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildPasswordField(BuildContext context, WidgetRef ref, RegisterFormState state) {
+  Widget _buildPasswordField(
+      BuildContext context, WidgetRef ref, RegisterFormState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -187,7 +198,9 @@ class RegisterScreen extends ConsumerWidget {
                 color: Colors.grey,
               ),
               onPressed: () {
-                ref.read(registerViewModelProvider.notifier).toggleShowPassword();
+                ref
+                    .read(registerViewModelProvider.notifier)
+                    .toggleShowPassword();
               },
             ),
             filled: true,
@@ -231,7 +244,8 @@ class RegisterScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildConfirmPasswordField(BuildContext context, WidgetRef ref, RegisterFormState state) {
+  Widget _buildConfirmPasswordField(
+      BuildContext context, WidgetRef ref, RegisterFormState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -251,11 +265,15 @@ class RegisterScreen extends ConsumerWidget {
             prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
             suffixIcon: IconButton(
               icon: Icon(
-                state.showConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                state.showConfirmPassword
+                    ? Icons.visibility_off
+                    : Icons.visibility,
                 color: Colors.grey,
               ),
               onPressed: () {
-                ref.read(registerViewModelProvider.notifier).toggleShowConfirmPassword();
+                ref
+                    .read(registerViewModelProvider.notifier)
+                    .toggleShowConfirmPassword();
               },
             ),
             filled: true,
@@ -284,14 +302,17 @@ class RegisterScreen extends ConsumerWidget {
           obscureText: !state.showConfirmPassword,
           textInputAction: TextInputAction.next,
           onChanged: (value) {
-            ref.read(registerViewModelProvider.notifier).updateConfirmPassword(value);
+            ref
+                .read(registerViewModelProvider.notifier)
+                .updateConfirmPassword(value);
           },
         ),
       ],
     );
   }
 
-  Widget _buildPhoneNumberField(BuildContext context, WidgetRef ref, RegisterFormState state) {
+  Widget _buildPhoneNumberField(
+      BuildContext context, WidgetRef ref, RegisterFormState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -338,7 +359,9 @@ class RegisterScreen extends ConsumerWidget {
           keyboardType: TextInputType.phone,
           textInputAction: TextInputAction.done,
           onChanged: (value) {
-            ref.read(registerViewModelProvider.notifier).updatePhoneNumber(value);
+            ref
+                .read(registerViewModelProvider.notifier)
+                .updatePhoneNumber(value);
           },
         ),
       ],
@@ -362,7 +385,7 @@ class RegisterScreen extends ConsumerWidget {
           child: RichText(
             text: TextSpan(
               children: [
-                TextSpan(
+                const TextSpan(
                   text: '서비스 이용약관',
                   style: TextStyle(
                     color: AppTheme.primaryColor,
@@ -377,7 +400,7 @@ class RegisterScreen extends ConsumerWidget {
                     fontSize: 14,
                   ),
                 ),
-                TextSpan(
+                const TextSpan(
                   text: '개인정보 처리방침',
                   style: TextStyle(
                     color: AppTheme.primaryColor,
@@ -400,7 +423,9 @@ class RegisterScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildRegisterButton(BuildContext context, WidgetRef ref, RegisterFormState registerState, AuthState authState) {
+  Widget _buildRegisterButton(BuildContext context, WidgetRef ref,
+      RegisterFormState registerState, AuthState authState) {
+    AppLogger.d("login :: _buildRegisterButton");
     return SizedBox(
       width: double.infinity,
       height: 50,
@@ -408,37 +433,43 @@ class RegisterScreen extends ConsumerWidget {
         onPressed: authState.isLoading || !registerState.isValid
             ? null
             : () async {
-          // 키보드 닫기
-          FocusScope.of(context).unfocus();
+                authState = authState.copyWith(isLoading: true);
 
-          final result = await ref.read(registerViewModelProvider.notifier).register();
+                ref.read(authViewModelProvider.notifier).setLoading(true);
+                // 키보드 닫기
+                FocusScope.of(context).unfocus();
 
-          if (result == RegisterResult.success) {
-            // 회원가입 성공 시 AuthViewModel 업데이트
-            await ref.read(authViewModelProvider.notifier).register(
-              RegisterRequest(
-                email: registerState.email,
-                password: registerState.password,
-                name: registerState.name,
-                phoneNumber: registerState.phoneNumber,
-              ),
-            );
+                final result = await ref
+                    .read(registerViewModelProvider.notifier)
+                    .register();
 
-            // 홈 화면으로 이동
-            if (!context.mounted) return;
-            Navigator.of(context).pushReplacementNamed('/home');
-          } else if (result == RegisterResult.emailAlreadyExists) {
-            // 이미 사용 중인 이메일
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('이미 사용 중인 이메일입니다.')),
-            );
-          } else if (result == RegisterResult.error) {
-            // 기타 오류
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('회원가입 중 오류가 발생했습니다.')),
-            );
-          }
-        },
+                if (result == RegisterResult.success) {
+                  // 회원가입 성공 시 AuthViewModel 업데이트
+
+                  // await ref.read(authViewModelProvider.notifier).register(
+                  //   RegisterRequest(
+                  //     email: registerState.email,
+                  //     password: registerState.password,
+                  //     name: registerState.name,
+                  //     phoneNumber: registerState.phoneNumber,
+                  //   ),
+                  // );
+
+                  // 홈 화면으로 이동
+                  if (!context.mounted) return;
+                  Navigator.of(context).pushReplacementNamed('/home');
+                } else if (result == RegisterResult.emailAlreadyExists) {
+                  // 이미 사용 중인 이메일
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('이미 사용 중인 이메일입니다.')),
+                  );
+                } else if (result == RegisterResult.error) {
+                  // 기타 오류
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('회원가입 중 오류가 발생했습니다.')),
+                  );
+                }
+              },
         style: ElevatedButton.styleFrom(
           backgroundColor: AppTheme.primaryColor,
           foregroundColor: Colors.white,
@@ -450,16 +481,16 @@ class RegisterScreen extends ConsumerWidget {
         ),
         child: authState.isLoading
             ? const CircularProgressIndicator(
-          color: Colors.white,
-          strokeWidth: 3,
-        )
+                color: Colors.white,
+                strokeWidth: 3,
+              )
             : const Text(
-          '회원가입',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+                '회원가입',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
       ),
     );
   }

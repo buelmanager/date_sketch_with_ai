@@ -63,5 +63,9 @@
             <key>NSAllowsArbitraryLoads</key>
             <true/>
         </dict>
+        <key>NSLocationWhenInUseUsageDescription</key>
+        <string>데이트 정보검색 시 사용자의 위치 정보가 필요합니다.</string>
+        <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+        <string>데이트 정보검색 시 사용자의 위치 정보가 필요합니다.</string>
 </dict>
 </plist>

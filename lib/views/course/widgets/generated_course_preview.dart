@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../models/date_course.dart';
 import '../../../utils/theme.dart';
+import '../../../view_models/ai_course_view_model.dart';
 
-class GeneratedCoursePreview extends StatelessWidget {
+class GeneratedCoursePreview extends ConsumerWidget {
   final DateCourse course;
 
   const GeneratedCoursePreview({
@@ -11,7 +13,7 @@ class GeneratedCoursePreview extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -192,11 +194,21 @@ class GeneratedCoursePreview extends StatelessWidget {
                           child: ElevatedButton.icon(
                             icon: const Icon(Icons.favorite_border, color: Colors.white),
                             label: const Text('저장하기'),
-                            onPressed: () {
-                              // TODO: 코스 저장 기능 구현
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('코스가 저장되었습니다.')),
-                              );
+                            onPressed: () async {
+                              // 코스 저장 기능 구현
+                              final viewModel = ref.read(aiCourseViewModelProvider.notifier);
+                              final success = await viewModel.saveCourse();
+
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(success
+                                        ? '코스가 저장되었습니다.'
+                                        : '코스 저장에 실패했습니다.'),
+                                    backgroundColor: success ? Colors.green : Colors.red,
+                                  ),
+                                );
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.primaryColor,

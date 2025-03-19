@@ -24,7 +24,7 @@ class DateCourse with _$DateCourse {
     required int estimatedCost,
     String? createdBy,
     @Default(false) bool isFavorite,
-    @Default(false) bool isFeatured,
+    @Default(false) bool isFeatured, required String? transportationInfo, required String? alternativeInfo,
   }) = _DateCourse;
 
   factory DateCourse.fromJson(Map<String, dynamic> json) => _$DateCourseFromJson(json);

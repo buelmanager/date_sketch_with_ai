@@ -2,14 +2,20 @@
 class Assets {
   Assets._();
 
-  static const String assetsGoogleLogo = 'assets/google_logo.png';
+  static const String aiAiCourseService = 'lib/services/ai/ai_course_service.dart';
+  static const String aiAiService = 'lib/services/ai/ai_service.dart';
+  static const String aiGeminiService = 'lib/services/ai/gemini_service.dart';
+  static const String aiRecommendationService = 'lib/services/ai/recommendation_service.dart';
   static const String authAuthWrapper = 'lib/views/auth/auth_wrapper.dart';
+  static const String authForgotPasswordScreen = 'lib/views/auth/forgot_password_screen.dart';
   static const String authLoginScreen = 'lib/views/auth/login_screen.dart';
   static const String authRegisterScreen = 'lib/views/auth/register_screen.dart';
   static const String commonAppBottomNavigation = 'lib/views/common/app_bottom_navigation.dart';
   static const String commonLoadingOverlay = 'lib/views/common/loading_overlay.dart';
   static const String courseAiCourseCreatorScreen = 'lib/views/course/ai_course_creator_screen.dart';
   static const String courseCourseDetailScreen = 'lib/views/course/course_detail_screen.dart';
+  static const String courseMapSelectionScreen = 'lib/views/course/map_selection_screen.dart';
+  static const String courseRecommendationScreen = 'lib/views/course/recommendation_screen.dart';
   static const String courseRecommendedCoursesScreen = 'lib/views/course/recommended_courses_screen.dart';
   static const String exploreExploreScreen = 'lib/views/explore/explore_screen.dart';
   static const String favoritesFavoritesScreen = 'lib/views/favorites/favorites_screen.dart';
@@ -19,6 +25,7 @@ class Assets {
   static const String fontsPretendardR = 'assets/fonts/Pretendard-R.ttf';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String homeHomeScreen = 'lib/views/home/home_screen.dart';
+  static const String iconsGoogleLogo = 'assets/icons/google_logo.png';
   static const String libApp = 'lib/app.dart';
   static const String libFirebaseOptions = 'lib/firebase_options.dart';
   static const String libMain = 'lib/main.dart';
@@ -45,6 +52,12 @@ class Assets {
   static const String repositoriesFavoritesRepository = 'lib/repositories/favorites_repository.dart';
   static const String repositoriesUserProfileRepository = 'lib/repositories/user_profile_repository.dart';
   static const String repositoriesUserRepository = 'lib/repositories/user_repository.dart';
+  static const String servicesApiService = 'lib/services/api_service.dart';
+  static const String servicesAuthService = 'lib/services/auth_service.dart';
+  static const String servicesFirebaseCourseService = 'lib/services/firebase_course_service.dart';
+  static const String settingsSettingsScreen = 'lib/views/settings/settings_screen.dart';
+  static const String splashSplashScreen = 'lib/views/splash/splash_screen.dart';
+  static const String timelineTileTimelineCoursePreview = 'lib/views/timeline_tile/timeline_course_preview.dart';
   static const String utilsAppLogger = 'lib/utils/app_logger.dart';
   static const String utilsTheme = 'lib/utils/theme.dart';
   static const String viewModelsAiCourseViewModel = 'lib/view_models/ai_course_view_model.dart';

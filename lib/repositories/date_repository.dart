@@ -30,7 +30,7 @@ class DateRepository {
         duration: 180,
         tags: ['피크닉', '자전거', '한강'],
         places: [],
-        isFavorite: false, reviewCount: 5, estimatedTime: 5, estimatedCost: 1,
+        isFavorite: false, reviewCount: 5, estimatedTime: 5, estimatedCost: 1, transportationInfo: '', alternativeInfo: '',
       ),
        DateCourse(
         id: '2',
@@ -43,7 +43,7 @@ class DateRepository {
         duration: 240,
         tags: ['한옥', '전통', '문화'],
         places: [],
-        isFavorite: true, reviewCount: 1, estimatedTime: 5, estimatedCost: 3,
+        isFavorite: true, reviewCount: 1, estimatedTime: 5, estimatedCost: 3, transportationInfo: '', alternativeInfo: '',
       ),
     ];
 

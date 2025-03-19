@@ -28,6 +28,9 @@ class AuthWrapper extends ConsumerWidget {
       );
     }
 
+    AppLogger.i("authState.isAuthenticated ${authState.isAuthenticated} ");
+    AppLogger.i("authState.user ${authState.user} ");
+
     // 인증 상태에 따라 화면 반환
     if (authState.isAuthenticated && authState.user != null) {
       AppLogger.i("User is authenticated. Navigating to HomeScreen.");
