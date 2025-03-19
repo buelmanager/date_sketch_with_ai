@@ -1,6 +1,7 @@
 // lib/main.dart
 import 'package:date_sketch_with_ai/services/ai/gemini_service.dart';
 import 'package:date_sketch_with_ai/utils/app_logger.dart';
+import 'package:date_sketch_with_ai/views/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,6 +52,7 @@ void main() async {
   String naverKey = getApiKey("NAVER");
   String geminiKey = getApiKey("GEMINI");
 
+  AppLogger.d("geminiKey : $geminiKey");
   // Gemini 서비스 초기화
   final geminiService = GeminiService();
   await geminiService.initialize();
@@ -100,8 +102,9 @@ class MyApp extends StatelessWidget {
         title: '데이트 플래너',
         theme: AppTheme.lightTheme,
         initialRoute: '/',
-        home: const AuthWrapper(),
+        home: const SplashScreen(),
         routes: {
+          '/auth': (context) => const AuthWrapper(),
           '/home': (context) => const DatePlannerApp(),
         },
       ),

@@ -56,6 +56,7 @@ class Assets {
   static const String servicesAuthService = 'lib/services/auth_service.dart';
   static const String servicesFirebaseCourseService = 'lib/services/firebase_course_service.dart';
   static const String settingsSettingsScreen = 'lib/views/settings/settings_screen.dart';
+  static const String splashSplashScreen = 'lib/views/splash/splash_screen.dart';
   static const String timelineTileTimelineCoursePreview = 'lib/views/timeline_tile/timeline_course_preview.dart';
   static const String utilsAppLogger = 'lib/utils/app_logger.dart';
   static const String utilsTheme = 'lib/utils/theme.dart';
