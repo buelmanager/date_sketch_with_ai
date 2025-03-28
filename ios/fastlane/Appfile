@@ -1,0 +1,8 @@
+app_identifier("com.buelmanager.datesketchwithai.dateSketchWithAi") # The bundle identifier of your app
+apple_id("buelmanager@gmail.com") # Your Apple Developer Portal username
+
+itc_team_id("126351765") # App Store Connect Team ID
+team_id("2V36CT7YBW") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
