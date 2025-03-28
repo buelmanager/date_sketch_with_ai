@@ -228,7 +228,7 @@ class RecommendedCoursesScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '리뷰 ${course.reviews}',
+                        '리뷰', // ${course.reviews}',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.grey[600],
